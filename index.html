@@ -13,7 +13,7 @@
 <body>
     <div id="canvas-container">
         <h1>Press Up/Down/Left/Right arrow to start</h1>
-        <p>Score: <span id="score"></span></p>
+        <p>Score: <span id="score">0</span></p>
         <canvas id="gc" width="400" height="400"></canvas>
     </div>
 </body>
@@ -29,6 +29,7 @@ score=0;
 px=py=10;    // Snake starting position (Middle of the board 20x20)
 gs=tc=20;    // Grid size and
 ax=ay=15;    // Starting position for the apple (X,Y)
+ex=ey=5;     // Starting position for the enemy (X,Y)
 xv=yv=0;     // Speed (x,y)
 trail=[];    // Previous position of the snake
 tail = 5;
@@ -66,12 +67,27 @@ function game() {
     if(ax==px && ay==py) {
         tail++;
         score++;
-        document.getElementById("score").innerHTML = score;
+        updateScore();
         ax=Math.floor(Math.random()*tc);
         ay=Math.floor(Math.random()*tc);
     }
     ctx.fillStyle="red";
     ctx.fillRect(ax*gs,ay*gs,gs-2,gs-2);
+
+    // We hit the enemy
+    if(ex==px && ey==py) {
+        tail=5;
+        score=0;
+        updateScore();
+        ex=Math.floor(Math.random()*tc);
+        ey=Math.floor(Math.random()*tc);
+    }
+    ctx.fillStyle="yellow";
+    ctx.fillRect(ex*gs,ey*gs,gs-5,gs-5);
+}
+
+function updateScore() {
+    document.getElementById("score").innerHTML = score;
 }
 // Function to change the speed (X,Y)
 function keyPush(evt) {
