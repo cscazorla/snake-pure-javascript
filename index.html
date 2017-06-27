@@ -77,15 +77,21 @@ function game() {
     // We hit the enemy
     if(ex==px && ey==py) {
         tail=5;
-        score=0;
-        updateScore();
+        gameOver();
         ex=Math.floor(Math.random()*tc);
         ey=Math.floor(Math.random()*tc);
     }
     ctx.fillStyle="yellow";
     ctx.fillRect(ex*gs,ey*gs,gs-5,gs-5);
 }
-
+function gameOver() {
+    xv=yv=0;
+    alert("Game Over. Score " + score);
+    tail=5;
+    px=py=10;
+    score=0;
+    updateScore();
+}
 function updateScore() {
     document.getElementById("score").innerHTML = score;
 }
